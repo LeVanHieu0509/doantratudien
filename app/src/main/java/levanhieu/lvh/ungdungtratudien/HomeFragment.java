@@ -1,12 +1,21 @@
 package levanhieu.lvh.ungdungtratudien;
 
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -15,6 +24,12 @@ import android.view.ViewGroup;
  */
 public class HomeFragment extends Fragment {
 
+    RecyclerView rcHomeHistory;
+    RecyclerView rcHomeVocabulary;
+
+    ArrayList<Vocabulary> vocabularies;
+    HomeHistoryAdapter homeHistoryAdapter;
+    HomeVocabularyAdapter homeVocabularyAdapter;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -56,9 +71,50 @@ public class HomeFragment extends Fragment {
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        rcHomeHistory = view.findViewById(R.id.rcHomeHistory);
+        rcHomeVocabulary = view.findViewById(R.id.rcHomeVocabulary);
+
+        vocabularies = init();
+
+        homeHistoryAdapter = new HomeHistoryAdapter(vocabularies);
+        rcHomeHistory.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
+        rcHomeHistory.addItemDecoration(new DividerItemDecoration(getContext(),LinearLayoutManager.HORIZONTAL));
+        rcHomeHistory.setAdapter(homeHistoryAdapter);
+
+        homeVocabularyAdapter = new HomeVocabularyAdapter(vocabularies);
+        rcHomeVocabulary.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
+        rcHomeVocabulary.addItemDecoration(new DividerItemDecoration(getContext(),LinearLayoutManager.HORIZONTAL));
+        rcHomeVocabulary.setAdapter(homeVocabularyAdapter);
+
+
+
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false);
+    }
+
+    public  ArrayList<Vocabulary> init(){
+        Context context = getContext();
+        ArrayList<Vocabulary> tmp = new ArrayList<>();
+            tmp.add(new Vocabulary("hello","xinchao"));
+            tmp.add(new Vocabulary("hello","xinchao"));
+            tmp.add(new Vocabulary("hello","xinchao"));
+            tmp.add(new Vocabulary("hello","xinchao"));
+            tmp.add(new Vocabulary("hello","xinchao"));
+            tmp.add(new Vocabulary("hello","xinchao"));
+            tmp.add(new Vocabulary("hello","xinchao"));
+            tmp.add(new Vocabulary("hello","xinchao"));
+            tmp.add(new Vocabulary("hello","xinchao"));
+            tmp.add(new Vocabulary("hello","xinchao"));
+            tmp.add(new Vocabulary("hello","xinchao"));
+            tmp.add(new Vocabulary("hello","xinchao"));
+
+        return tmp;
     }
 }
