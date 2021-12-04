@@ -6,14 +6,11 @@ package levanhieu.lvh.ungdungtratudien;
         import android.widget.Filter;
         import android.widget.Filterable;
         import android.widget.TextView;
-
         import androidx.annotation.NonNull;
         import androidx.recyclerview.widget.RecyclerView;
-
         import java.util.ArrayList;
 
 class ListVocabularyAdapter extends RecyclerView.Adapter<ListVocabularyAdapter.ListVocabularyVH> implements Filterable {
-
     ArrayList<Vocabulary> arrayList;
     ArrayList<Vocabulary> arrayListFilter;
     boolean flag = false;
@@ -61,7 +58,6 @@ class ListVocabularyAdapter extends RecyclerView.Adapter<ListVocabularyAdapter.L
     }
 
     class FurnitureFilter extends Filter{
-
         //loc du lieu
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {

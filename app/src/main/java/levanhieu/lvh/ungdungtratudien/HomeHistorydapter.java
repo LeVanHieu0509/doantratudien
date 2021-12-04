@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,9 +13,12 @@ import java.util.ArrayList;
 
 class HomeHistoryAdapter extends RecyclerView.Adapter<HomeHistoryAdapter.HomeHistoryVH> {
     ArrayList<Vocabulary> vocabularies;
+    HomeHistoryAdapter.Listener listener;
+    boolean flag = false;
 
-    public HomeHistoryAdapter(ArrayList<Vocabulary> vocabularies) {
+    public HomeHistoryAdapter(ArrayList<Vocabulary> vocabularies, Listener listener) {
         this.vocabularies = vocabularies;
+        this.listener = listener;
     }
 
     @NonNull
@@ -29,8 +33,17 @@ class HomeHistoryAdapter extends RecyclerView.Adapter<HomeHistoryAdapter.HomeHis
     public void onBindViewHolder(@NonNull HomeHistoryVH holder, int position) {
         Vocabulary vocabulary = vocabularies.get(position);
         holder.txtWord.setText(vocabulary.word);
-//        holder.txtMean.setText(vocabulary.word);
+        //holder.txtMean.setText(vocabulary.mean);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onClick(vocabulary);
+            }
+        });
 
+    }
+    interface  Listener{
+        void onClick(Vocabulary vocabulary);
     }
 
     @Override
@@ -47,7 +60,7 @@ class HomeHistoryAdapter extends RecyclerView.Adapter<HomeHistoryAdapter.HomeHis
         public HomeHistoryVH(@NonNull View itemView) {
             super(itemView);
             txtWord = itemView.findViewById(R.id.txtWord);
-//            txtMean = itemView.findViewById(R.id.txtMean);
+            txtMean = itemView.findViewById(R.id.txtMean);
 
         }
     }

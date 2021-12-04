@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +20,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -26,14 +29,17 @@ import java.util.ArrayList;
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements HomeHistoryAdapter.Listener {
 
     RecyclerView rcHomeHistory;
     RecyclerView rcHomeVocabulary;
 
     ArrayList<Vocabulary> vocabularies;
+    ArrayList<Topics> topics;
+
     HomeHistoryAdapter homeHistoryAdapter;
     HomeVocabularyAdapter homeVocabularyAdapter;
+    DBHelper dbHelper;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -73,6 +79,7 @@ public class HomeFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         setHasOptionsMenu(true);
+        dbHelper = new DBHelper(getContext());
     }
 
     @Override
@@ -81,14 +88,15 @@ public class HomeFragment extends Fragment {
         rcHomeHistory = view.findViewById(R.id.rcHomeHistory);
         rcHomeVocabulary = view.findViewById(R.id.rcHomeVocabulary);
 
-        vocabularies = init();
+        vocabularies = dbHelper.getALLVocabulary();
+        topics = dbHelper.getALLTopics();
 
-        homeHistoryAdapter = new HomeHistoryAdapter(vocabularies);
+        homeHistoryAdapter = new HomeHistoryAdapter(vocabularies, this);
         rcHomeHistory.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
         rcHomeHistory.addItemDecoration(new DividerItemDecoration(getContext(),LinearLayoutManager.HORIZONTAL));
         rcHomeHistory.setAdapter(homeHistoryAdapter);
 
-        homeVocabularyAdapter = new HomeVocabularyAdapter(vocabularies);
+        homeVocabularyAdapter = new HomeVocabularyAdapter(topics);
         rcHomeVocabulary.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
         rcHomeVocabulary.addItemDecoration(new DividerItemDecoration(getContext(),LinearLayoutManager.HORIZONTAL));
         rcHomeVocabulary.setAdapter(homeVocabularyAdapter);
@@ -118,22 +126,40 @@ public class HomeFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
-    public  ArrayList<Vocabulary> init(){
-        Context context = getContext();
-        ArrayList<Vocabulary> tmp = new ArrayList<>();
-            tmp.add(new Vocabulary("hello","xinchao"));
-            tmp.add(new Vocabulary("hello","xinchao"));
-            tmp.add(new Vocabulary("hello","xinchao"));
-            tmp.add(new Vocabulary("hello","xinchao"));
-            tmp.add(new Vocabulary("hello","xinchao"));
-            tmp.add(new Vocabulary("hello","xinchao"));
-            tmp.add(new Vocabulary("hello","xinchao"));
-            tmp.add(new Vocabulary("hello","xinchao"));
-            tmp.add(new Vocabulary("hello","xinchao"));
-            tmp.add(new Vocabulary("hello","xinchao"));
-            tmp.add(new Vocabulary("hello","xinchao"));
-            tmp.add(new Vocabulary("hello","xinchao"));
+    @Override
+    public void onClick(Vocabulary vocabulary) {
+        //add funrniture vao data
+//        Log.d("abc", String.valueOf(dbHelper.getFurnitureDetail(furniture.idFurniture)));
+        //ListItemHis = dbHelper.getFurnitureDetail(furniture.idFurniture);
+        //Utilities.data.addAll(ListItemHis);
+//        Log.d("abc", String.valueOf(dbHelper.getFurnitureDetail(furniture.idFurniture)));
+        //dbHelper.setFurnitureHis(furniture.idFurniture);
 
-        return tmp;
+        //dbHelper.getFurnitureDetail(furniture.idFurniture);
+        Intent intent = new Intent(getActivity(),VocabularyDetailActivity.class);
+        intent.putExtra("furniture", vocabulary);
+        startActivity(intent);
+
+        Toast.makeText(getContext(), "OK", Toast.LENGTH_SHORT).show();
+
     }
+
+//    public  ArrayList<Vocabulary> init(){
+//        Context context = getContext();
+//        ArrayList<Vocabulary> tmp = new ArrayList<>();
+//            tmp.add(new Vocabulary("hello","xinchao"));
+//            tmp.add(new Vocabulary("hello","xinchao"));
+//            tmp.add(new Vocabulary("hello","xinchao"));
+//            tmp.add(new Vocabulary("hello","xinchao"));
+//            tmp.add(new Vocabulary("hello","xinchao"));
+//            tmp.add(new Vocabulary("hello","xinchao"));
+//            tmp.add(new Vocabulary("hello","xinchao"));
+//            tmp.add(new Vocabulary("hello","xinchao"));
+//            tmp.add(new Vocabulary("hello","xinchao"));
+//            tmp.add(new Vocabulary("hello","xinchao"));
+//            tmp.add(new Vocabulary("hello","xinchao"));
+//            tmp.add(new Vocabulary("hello","xinchao"));
+//
+//        return tmp;
+//    }
 }

@@ -1,19 +1,33 @@
 
 package levanhieu.lvh.ungdungtratudien;
 
-public class Vocabulary {
+import java.io.Serializable;
+
+public class Vocabulary implements Serializable {
     String word;
     String mean;
-    public Vocabulary(String word, String mean) {
-        this.word = word;
-        this.mean = mean;
-    }
+    int IdTopic;
+    int IdVocabulary;
 
     @Override
     public String toString() {
         return "Vocabulary{" +
                 "word='" + word + '\'' +
                 ", mean='" + mean + '\'' +
+                ", IdTopic=" + IdTopic +
                 '}';
     }
+
+    public Vocabulary(String word, String mean, int IdTopic) {
+        this.word = word;
+        this.mean = mean;
+        this.IdTopic = IdTopic;
+    }
+    public Vocabulary(String word, String mean, int IdTopic, int IdVocabulary) {
+        this.word = word;
+        this.mean = mean;
+        this.IdTopic = IdTopic;
+        this.IdVocabulary = IdVocabulary;
+    }
+
 }

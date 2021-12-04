@@ -1,5 +1,6 @@
 package levanhieu.lvh.ungdungtratudien;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 class HomeVocabularyAdapter extends RecyclerView.Adapter<HomeVocabularyAdapter.HomeVocabularyVH> {
-    ArrayList<Vocabulary> vocabularies;
-    public HomeVocabularyAdapter(ArrayList<Vocabulary> vocabularies) {
-        this.vocabularies = vocabularies;
+    ArrayList<Topics> topics;
+    public HomeVocabularyAdapter(ArrayList<Topics> topics) {
+        this.topics = topics;
     }
 
     @NonNull
@@ -26,15 +27,16 @@ class HomeVocabularyAdapter extends RecyclerView.Adapter<HomeVocabularyAdapter.H
 
     @Override
     public void onBindViewHolder(@NonNull HomeVocabularyVH holder, int position) {
-        Vocabulary vocabulary = vocabularies.get(position);
-        holder.txtWord.setText(vocabulary.word);
-//        holder.txtMean.setText(vocabulary.word);
+        Topics topic = topics.get(position);
+        holder.txtWord.setText(topic.name);
+
+//        holder.txtMean.setText(vocabulary.word)s
 
     }
 
     @Override
     public int getItemCount() {
-        return vocabularies.size();
+        return topics.size();
     }
 
     class HomeVocabularyVH extends RecyclerView.ViewHolder{
