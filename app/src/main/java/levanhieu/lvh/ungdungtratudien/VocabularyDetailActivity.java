@@ -13,7 +13,6 @@ public class VocabularyDetailActivity extends AppCompatActivity {
     TextView txtDesDetail;
     ImageView imgHomeDetail;
     Toolbar toolbar2;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

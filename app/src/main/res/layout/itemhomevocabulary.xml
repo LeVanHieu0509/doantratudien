@@ -21,7 +21,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
-        android:id="@+id/txtWord"
+        android:id="@+id/txtHistoryWord"
         android:layout_width="81dp"
         android:layout_height="87dp"
         android:layout_gravity="center"

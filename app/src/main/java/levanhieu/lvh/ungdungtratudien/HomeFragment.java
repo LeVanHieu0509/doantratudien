@@ -133,7 +133,7 @@ public class HomeFragment extends Fragment implements HomeHistoryAdapter.Listene
         //ListItemHis = dbHelper.getFurnitureDetail(furniture.idFurniture);
         //Utilities.data.addAll(ListItemHis);
 //        Log.d("abc", String.valueOf(dbHelper.getFurnitureDetail(furniture.idFurniture)));
-        //dbHelper.setFurnitureHis(furniture.idFurniture);
+        dbHelper.setVocabularyHis(vocabulary.IdVocabulary);
 
         //dbHelper.getFurnitureDetail(furniture.idFurniture);
         Intent intent = new Intent(getActivity(),VocabularyDetailActivity.class);
@@ -144,22 +144,5 @@ public class HomeFragment extends Fragment implements HomeHistoryAdapter.Listene
 
     }
 
-//    public  ArrayList<Vocabulary> init(){
-//        Context context = getContext();
-//        ArrayList<Vocabulary> tmp = new ArrayList<>();
-//            tmp.add(new Vocabulary("hello","xinchao"));
-//            tmp.add(new Vocabulary("hello","xinchao"));
-//            tmp.add(new Vocabulary("hello","xinchao"));
-//            tmp.add(new Vocabulary("hello","xinchao"));
-//            tmp.add(new Vocabulary("hello","xinchao"));
-//            tmp.add(new Vocabulary("hello","xinchao"));
-//            tmp.add(new Vocabulary("hello","xinchao"));
-//            tmp.add(new Vocabulary("hello","xinchao"));
-//            tmp.add(new Vocabulary("hello","xinchao"));
-//            tmp.add(new Vocabulary("hello","xinchao"));
-//            tmp.add(new Vocabulary("hello","xinchao"));
-//            tmp.add(new Vocabulary("hello","xinchao"));
-//
-//        return tmp;
-//    }
+
 }

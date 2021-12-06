@@ -39,16 +39,21 @@ public class DBHelper  {
                 " Word TEXT," +
                 " Mean INTEGER," +
                 " IdTopic INTEGER," +
-                "  IsFavourite TEXT, " +
+                "  IsFavourite INTERGER, " +
                 " IsHistory INTEGER );";
         String sqlTopics = "CREATE TABLE IF NOT EXISTS tblTopics (" +
                 " IdTopics INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
                 " Name TEXT," +
                 " Image INTEGER );";
 
+        String sql0 = "UPDATE tblVocabularies SET IsHistory = 0";
+        String sql1 = "UPDATE tblVocabularies SET IsFavourite = 0";
+
 
         db.execSQL(sqlVocabularies);
         db.execSQL(sqlTopics);
+        db.execSQL(sql0);
+        db.execSQL(sql1);
         closeDB(db);
     }
     public ArrayList<Vocabulary> getALLVocabulary() {
@@ -75,7 +80,7 @@ public class DBHelper  {
     public ArrayList<Vocabulary> getVocabularyHis() {
         SQLiteDatabase db = openDB();
         ArrayList<Vocabulary> arr = new ArrayList<>();
-        String sql = "select * from tblVocabularíe where IsHistory = 1";
+        String sql = "select * from tblVocabularies where IsHistory = 1";
         Cursor csr = db.rawQuery(sql, null);
         if (csr != null) {
             if (csr.moveToFirst()) {
@@ -91,10 +96,21 @@ public class DBHelper  {
         closeDB(db);
         return arr;
     }
-    public  void  setVocabularyHis(int idFurniture){
+    public  void  setVocabularyHis(int idVocabulary){
         SQLiteDatabase db = openDB();
-        String sql = "UPDATE tblFurniture SET IsHistory = 1 WHERE ID = " + idFurniture;
-        Log.d("az", String.valueOf(sql));
+        String sql = "UPDATE tblVocabularies SET IsHistory = 1 WHERE IdVocabulary = " + idVocabulary;
+        db.execSQL(sql);
+        closeDB(db);
+    }
+    public  void  deleteVocabularyHis(int idVocabulary){
+        SQLiteDatabase db = openDB();
+        String sql = "UPDATE tblVocabularies SET IsHistory = 0 WHERE IdVocabulary = " + idVocabulary;
+        db.execSQL(sql);
+        closeDB(db);
+    }
+    public  void  setVocabularyFavourite(int idFavourite){
+        SQLiteDatabase db = openDB();
+        String sql = "UPDATE tblVocabularies SET IsFavourite = 1 WHERE IdVocabulary = " + idFavourite;
         db.execSQL(sql);
         closeDB(db);
     }
@@ -162,6 +178,7 @@ public class DBHelper  {
     }
 
     public void insertFurniture(@NonNull Vocabulary vocabulary){
+
         ContentValues contentValues = new ContentValues();
         contentValues.put("Word", vocabulary.word);
         contentValues.put("Mean", vocabulary.mean);

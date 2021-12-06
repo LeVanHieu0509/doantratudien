@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
                 fragment = new HomeFragment();
                 break;
             case R.id.mnuHistory:
-                toolbar.setTitle("History");
+                toolbar.setTitle("");
                 fragment = new HistoryFragment();
                 break;
             case R.id.mnuVocabulary:

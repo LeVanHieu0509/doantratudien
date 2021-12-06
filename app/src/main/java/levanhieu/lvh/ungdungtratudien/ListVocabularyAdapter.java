@@ -51,8 +51,8 @@ class ListVocabularyAdapter extends RecyclerView.Adapter<ListVocabularyAdapter.L
         TextView txtMean;
         public ListVocabularyVH(@NonNull View itemView) {
             super(itemView);
-            txtWord = itemView.findViewById(R.id.txtWord);
-            txtMean = itemView.findViewById(R.id.txtMean);
+            txtWord = itemView.findViewById(R.id.txtHistoryWord);
+            txtMean = itemView.findViewById(R.id.txtHistoryMean);
 
         }
     }

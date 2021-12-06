@@ -1,6 +1,5 @@
 package levanhieu.lvh.ungdungtratudien;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +46,7 @@ class HomeVocabularyAdapter extends RecyclerView.Adapter<HomeVocabularyAdapter.H
 
         public HomeVocabularyVH(@NonNull View itemView) {
             super(itemView);
-            txtWord = itemView.findViewById(R.id.txtWord);
+            txtWord = itemView.findViewById(R.id.txtHistoryWord);
 //            txtMean = itemView.findViewById(R.id.txtMean);
 
         }

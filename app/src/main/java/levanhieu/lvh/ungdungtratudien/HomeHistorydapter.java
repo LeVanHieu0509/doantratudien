@@ -4,7 +4,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -59,8 +58,8 @@ class HomeHistoryAdapter extends RecyclerView.Adapter<HomeHistoryAdapter.HomeHis
 
         public HomeHistoryVH(@NonNull View itemView) {
             super(itemView);
-            txtWord = itemView.findViewById(R.id.txtWord);
-            txtMean = itemView.findViewById(R.id.txtMean);
+            txtWord = itemView.findViewById(R.id.txtHistoryWord);
+            txtMean = itemView.findViewById(R.id.txtHistoryMean);
 
         }
     }
