@@ -25,12 +25,13 @@ import java.util.ArrayList;
  * Use the {@link HistoryFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HistoryFragment extends Fragment implements HistoryAdapter.Listener {
+public class HistoryFragment extends Fragment implements HistoryAdapter.Listener  {
 
     RecyclerView rcHistory;
     ArrayList<Vocabulary> arrayList;
     HistoryAdapter historyAdapter ;
     DBHelper dbHelper;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -54,7 +55,7 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.Listener
      * @return A new instance of fragment HistoryFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static HistoryFragment newInstance(String param1, String param2) {
+    public static HistoryFragment newInstance(String param1, String param2){
         HistoryFragment fragment = new HistoryFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
@@ -85,12 +86,10 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.Listener
         super.onViewCreated(view, savedInstanceState);
         rcHistory= view.findViewById(R.id.rcHistory);
         arrayList = dbHelper.getVocabularyHis();
-
         historyAdapter = new HistoryAdapter(arrayList,this);
         rcHistory.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         rcHistory.addItemDecoration(new DividerItemDecoration(getContext(),LinearLayoutManager.VERTICAL ));
         rcHistory.setAdapter(historyAdapter);
-
     }
 
 
@@ -116,7 +115,6 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.Listener
     @Override
     public void onClick(Vocabulary vocabulary) {
         dbHelper.setVocabularyHis(vocabulary.IdVocabulary);
-        //dbHelper.getFurnitureDetail(furniture.idFurniture);
         Intent intent = new Intent(getActivity(),VocabularyDetailActivity.class);
         intent.putExtra("furniture", vocabulary);
         startActivity(intent);
@@ -137,4 +135,6 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.Listener
         dbHelper.setVocabularyFavourite(vocabulary.IdVocabulary);
         Toast.makeText(getContext(), "Them Vao muc yeu thich Thanh cong", Toast.LENGTH_SHORT).show();
     }
+
+
 }

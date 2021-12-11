@@ -13,10 +13,12 @@ package levanhieu.lvh.ungdungtratudien;
 class ListVocabularyAdapter extends RecyclerView.Adapter<ListVocabularyAdapter.ListVocabularyVH> implements Filterable {
     ArrayList<Vocabulary> arrayList;
     ArrayList<Vocabulary> arrayListFilter;
+    ListVocabularyAdapter.Listener  listener;
     boolean flag = false;
-    public ListVocabularyAdapter(ArrayList<Vocabulary> arrayList) {
+    public ListVocabularyAdapter(ArrayList<Vocabulary> arrayList,Listener listener) {
         this.arrayList=arrayList;
         this.arrayListFilter = arrayList;
+        this.listener = listener;
     }
 
     @NonNull
@@ -32,6 +34,12 @@ class ListVocabularyAdapter extends RecyclerView.Adapter<ListVocabularyAdapter.L
         Vocabulary vocabulary = arrayListFilter.get(position);
         holder.txtWord.setText(vocabulary.word);
         holder.txtMean.setText(vocabulary.mean);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.onClick(vocabulary);
+            }
+        });
 
     }
 
@@ -55,6 +63,9 @@ class ListVocabularyAdapter extends RecyclerView.Adapter<ListVocabularyAdapter.L
             txtMean = itemView.findViewById(R.id.txtHistoryMean);
 
         }
+    }
+    interface  Listener{
+        void onClick(Vocabulary vocabulary);
     }
 
     class FurnitureFilter extends Filter{

@@ -1,13 +1,11 @@
 package levanhieu.lvh.ungdungtratudien;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -20,7 +18,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import java.util.ArrayList;
 
@@ -29,17 +29,20 @@ import java.util.ArrayList;
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment implements HomeHistoryAdapter.Listener {
+public class HomeFragment extends Fragment implements HomeTopicAdapter.Listener, HomeHistoryAdapter.Listener{
 
     RecyclerView rcHomeHistory;
     RecyclerView rcHomeVocabulary;
+    TextView txtSeeAllHistory;
 
     ArrayList<Vocabulary> vocabularies;
     ArrayList<Topics> topics;
+    ArrayList<Vocabulary> ListItemCate;
 
     HomeHistoryAdapter homeHistoryAdapter;
-    HomeVocabularyAdapter homeVocabularyAdapter;
+    HomeTopicAdapter homeTopicAdapter;
     DBHelper dbHelper;
+    Toolbar toolbar;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -87,22 +90,29 @@ public class HomeFragment extends Fragment implements HomeHistoryAdapter.Listene
         super.onViewCreated(view, savedInstanceState);
         rcHomeHistory = view.findViewById(R.id.rcHomeHistory);
         rcHomeVocabulary = view.findViewById(R.id.rcHomeVocabulary);
-
+        txtSeeAllHistory = view.findViewById(R.id.txtSeeAllHistory);
+        toolbar = view.findViewById(R.id.toolbar);
         vocabularies = dbHelper.getALLVocabulary();
         topics = dbHelper.getALLTopics();
+        txtSeeAllHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment fragment = new HistoryFragment();
+                toolbar.setTitle("");
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.content, fragment);
+                ft.commit();
+            }
+        });
 
         homeHistoryAdapter = new HomeHistoryAdapter(vocabularies, this);
         rcHomeHistory.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
         rcHomeHistory.addItemDecoration(new DividerItemDecoration(getContext(),LinearLayoutManager.HORIZONTAL));
         rcHomeHistory.setAdapter(homeHistoryAdapter);
-
-        homeVocabularyAdapter = new HomeVocabularyAdapter(topics);
+        homeTopicAdapter = new HomeTopicAdapter(topics,this);
         rcHomeVocabulary.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
         rcHomeVocabulary.addItemDecoration(new DividerItemDecoration(getContext(),LinearLayoutManager.HORIZONTAL));
-        rcHomeVocabulary.setAdapter(homeVocabularyAdapter);
-
-
-
+        rcHomeVocabulary.setAdapter(homeTopicAdapter);
     }
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
@@ -128,21 +138,21 @@ public class HomeFragment extends Fragment implements HomeHistoryAdapter.Listene
 
     @Override
     public void onClick(Vocabulary vocabulary) {
-        //add funrniture vao data
-//        Log.d("abc", String.valueOf(dbHelper.getFurnitureDetail(furniture.idFurniture)));
-        //ListItemHis = dbHelper.getFurnitureDetail(furniture.idFurniture);
-        //Utilities.data.addAll(ListItemHis);
-//        Log.d("abc", String.valueOf(dbHelper.getFurnitureDetail(furniture.idFurniture)));
         dbHelper.setVocabularyHis(vocabulary.IdVocabulary);
-
-        //dbHelper.getFurnitureDetail(furniture.idFurniture);
         Intent intent = new Intent(getActivity(),VocabularyDetailActivity.class);
         intent.putExtra("furniture", vocabulary);
         startActivity(intent);
-
-        Toast.makeText(getContext(), "OK", Toast.LENGTH_SHORT).show();
-
     }
 
 
+    @Override
+    public void onClick(Topics topics) {
+        if (Utilities.dataCateHome.size() != 0) {
+            Utilities.dataCateHome.clear();
+        }
+        ListItemCate = dbHelper.getTopicsDetail(topics.idTopic);
+        Utilities.dataCateHome.addAll(ListItemCate);
+        Intent intent = new Intent(getActivity(),TopicDetailActivity.class);
+        startActivity(intent);
+    }
 }

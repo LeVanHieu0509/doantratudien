@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Ungdungtratudien">
         <activity
+            android:name=".TopicDetailActivity"
+            android:exported="true" />
+        <activity
             android:name=".VocabularyDetailActivity"
             android:exported="true" />
         <activity

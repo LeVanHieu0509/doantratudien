@@ -51,11 +51,8 @@ class HomeHistoryAdapter extends RecyclerView.Adapter<HomeHistoryAdapter.HomeHis
     }
 
     class HomeHistoryVH extends RecyclerView.ViewHolder{
-
         TextView txtWord;
         TextView txtMean;
-
-
         public HomeHistoryVH(@NonNull View itemView) {
             super(itemView);
             txtWord = itemView.findViewById(R.id.txtHistoryWord);

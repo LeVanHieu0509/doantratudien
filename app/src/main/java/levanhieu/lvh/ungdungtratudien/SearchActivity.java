@@ -13,10 +13,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity implements ListVocabularyAdapter.Listener {
 
     Toolbar toolbar;
     SearchView searchView;
@@ -24,9 +25,11 @@ public class SearchActivity extends AppCompatActivity {
     ArrayList<Vocabulary> arrayList;
     LinearLayout linearEmpty;
     RecyclerView rcFurnitureFilter;
+    DBHelper dbHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        dbHelper = new DBHelper(this);
         setContentView(R.layout.activity_search);
         toolbar = findViewById(R.id.toolbar);
         searchView = findViewById(R.id.searchView);
@@ -34,7 +37,7 @@ public class SearchActivity extends AppCompatActivity {
         rcFurnitureFilter = findViewById(R.id.rcFurnitureFilter);
 
         arrayList = App.init(this);
-        listVocabularyAdapter = new ListVocabularyAdapter(arrayList);
+        listVocabularyAdapter = new ListVocabularyAdapter(arrayList, this);
         rcFurnitureFilter.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         rcFurnitureFilter.addItemDecoration(new DividerItemDecoration(this,LinearLayoutManager.VERTICAL ));
         rcFurnitureFilter.setAdapter(listVocabularyAdapter);
@@ -73,6 +76,16 @@ public class SearchActivity extends AppCompatActivity {
             linearEmpty.setVisibility(View.GONE);
             rcFurnitureFilter.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public void onClick(Vocabulary vocabulary) {
+        dbHelper.setVocabularyHis(vocabulary.IdVocabulary);
+        //dbHelper.getFurnitureDetail(furniture.idFurniture);
+        Intent intent = new Intent(this,VocabularyDetailActivity.class);
+        intent.putExtra("furniture", vocabulary);
+        startActivity(intent);
+        Toast.makeText(this, "OK", Toast.LENGTH_SHORT).show();
     }
 
 //    @Override

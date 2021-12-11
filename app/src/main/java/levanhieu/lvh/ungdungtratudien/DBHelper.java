@@ -135,11 +135,11 @@ public class DBHelper  {
         return arr;
     }
 
-    public ArrayList<Vocabulary> getTopicsDetail(int idCategories){
-        SQLiteDatabase db = openDB();
+    public ArrayList<Vocabulary> getTopicsDetail(int idTopic){
 
+        SQLiteDatabase db = openDB();
         ArrayList<Vocabulary> arr = new ArrayList<>();
-        String sql = "select * from tblFurniture where tblFurniture.CategoriesID ="+idCategories;
+        String sql = "select * from tblVocabularies where IdTopic ="+idTopic;
         Cursor csr = db.rawQuery(sql, null);
         if (csr != null) {
             if (csr.moveToFirst()) {
@@ -149,12 +149,35 @@ public class DBHelper  {
                     String mean = csr.getString(2);
                     int IdTopic = csr.getInt(3);
                     arr.add(new Vocabulary( word, mean, IdTopic, IdVocabulary));
+                    Log.d("aw", String.valueOf(word));
                 } while (csr.moveToNext());
             }
         }
         closeDB(db);
         return arr;
     }
+
+//    public ArrayList<Vocabulary> getCategoriesDetail(int idCategories){
+//        SQLiteDatabase db = openDB();
+//
+//        ArrayList<Vocabulary> arr = new ArrayList<>();
+//        String sql = "select * from tblFurniture where tblFurniture.CategoriesID ="+idCategories;
+//        Cursor csr = db.rawQuery(sql, null);
+//        if (csr != null) {
+//            if (csr.moveToFirst()) {
+//                do {
+//                    int id = csr.getInt(0);
+//                    String name = csr.getString(1);
+//                    int image = csr.getInt(2);
+//                    String description = csr.getString(3);
+//                    int categoriesID = csr.getInt(4);
+//                    arr.add(new Topics(name,description,image,categoriesID,id));
+//                } while (csr.moveToNext());
+//            }
+//        }
+//        closeDB(db);
+//        return arr;
+//    }
 
     public  ArrayList<Vocabulary>  getVocabularyDetail(int idFurniture){
         SQLiteDatabase db = openDB();
