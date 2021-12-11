@@ -42,7 +42,6 @@ public class HomeFragment extends Fragment implements HomeTopicAdapter.Listener,
     HomeHistoryAdapter homeHistoryAdapter;
     HomeTopicAdapter homeTopicAdapter;
     DBHelper dbHelper;
-    Toolbar toolbar;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -91,14 +90,14 @@ public class HomeFragment extends Fragment implements HomeTopicAdapter.Listener,
         rcHomeHistory = view.findViewById(R.id.rcHomeHistory);
         rcHomeVocabulary = view.findViewById(R.id.rcHomeVocabulary);
         txtSeeAllHistory = view.findViewById(R.id.txtSeeAllHistory);
-        toolbar = view.findViewById(R.id.toolbar);
+
         vocabularies = dbHelper.getALLVocabulary();
         topics = dbHelper.getALLTopics();
         txtSeeAllHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Fragment fragment = new HistoryFragment();
-                toolbar.setTitle("");
+
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.content, fragment);
                 ft.commit();
