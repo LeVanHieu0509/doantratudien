@@ -13,21 +13,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link VocabularyFragment#newInstance} factory method to
+ * Use the {@link SentencesFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class VocabularyFragment extends Fragment implements VocabularyAdapter.Listener {
-    ArrayList<Topics> topics;
-    RecyclerView rcVocabulary;
-    VocabularyAdapter vocabularyAdapter;
+public class SentencesFragment extends Fragment  implements SentencesAdapter.Listener {
+
+    ArrayList<Sentences> sentences;
+    RecyclerView rcSentences;
+    SentencesAdapter sentencesAdapter;
     DBHelper dbHelper;
-    ArrayList<Vocabulary> ListItemCate;
+    ArrayList<DetailSentences> dataSentences;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -37,7 +37,7 @@ public class VocabularyFragment extends Fragment implements VocabularyAdapter.Li
     private String mParam1;
     private String mParam2;
 
-    public VocabularyFragment() {
+    public SentencesFragment() {
         // Required empty public constructor
     }
 
@@ -47,11 +47,11 @@ public class VocabularyFragment extends Fragment implements VocabularyAdapter.Li
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment VocabularyFragment.
+     * @return A new instance of fragment SentencesFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static VocabularyFragment newInstance(String param1, String param2) {
-        VocabularyFragment fragment = new VocabularyFragment();
+    public static SentencesFragment newInstance(String param1, String param2) {
+        SentencesFragment fragment = new SentencesFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -73,28 +73,25 @@ public class VocabularyFragment extends Fragment implements VocabularyAdapter.Li
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_vocabulary, container, false);
+        return inflater.inflate(R.layout.fragment_sentences, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        rcVocabulary = view.findViewById(R.id.rcVocabulary);
-        topics = dbHelper.getALLTopics();
-        vocabularyAdapter = new VocabularyAdapter(topics,this);
-        rcVocabulary.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
-        rcVocabulary.addItemDecoration(new DividerItemDecoration(getContext(),LinearLayoutManager.VERTICAL));
-        rcVocabulary.setAdapter(vocabularyAdapter);
+        rcSentences = view.findViewById(R.id.rcSentences);
+        sentences = dbHelper.getALLSentences();
+        sentencesAdapter = new SentencesAdapter(sentences,this);
+        rcSentences.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false));
+        rcSentences.addItemDecoration(new DividerItemDecoration(getContext(),LinearLayoutManager.VERTICAL));
+        rcSentences.setAdapter(sentencesAdapter);
     }
     @Override
-    public void onClick(Topics topics) {
-        if (Utilities.dataCateHome.size() != 0) {
-            Utilities.dataCateHome.clear();
-        }
-        ListItemCate = dbHelper.getTopicsDetail(topics.idTopic);
-        Utilities.dataCateHome.addAll(ListItemCate);
-        Intent intent = new Intent(getActivity(),TopicDetailActivity.class);
+    public void onClick(Sentences sentences) {
+        Intent intent = new Intent(getActivity(),SentencesDetailActivity.class);
+        intent.putExtra("sentencesDetail", sentences);
         startActivity(intent);
-        Toast.makeText(getContext(), "1", Toast.LENGTH_SHORT).show();
     }
+
+
 }

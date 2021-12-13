@@ -46,10 +46,20 @@ public class DBHelper  {
                 " Name TEXT," +
                 " Image INTEGER );";
 
+        String sqlSentences = "CREATE TABLE IF NOT EXISTS tblSentences (" +
+                " IdSentence INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                " Sentence TEXT," +
+                " DesSentence TEXT );";
+        String sqlDetailSentences = "CREATE TABLE IF NOT EXISTS tblDetailSentences (" +
+                " IdDetailSentences INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT," +
+                " DetailSentence TEXT," +
+                " IdSentence INTEGER );";
+
         String sql0 = "UPDATE tblVocabularies SET IsHistory = 0";
         String sql1 = "UPDATE tblVocabularies SET IsFavourite = 0";
 
-
+        db.execSQL(sqlSentences);
+        db.execSQL(sqlDetailSentences);
         db.execSQL(sqlVocabularies);
         db.execSQL(sqlTopics);
         db.execSQL(sql0);
@@ -115,6 +125,33 @@ public class DBHelper  {
         closeDB(db);
     }
 
+
+    public ArrayList<Vocabulary> getVocabularyFavourite() {
+        SQLiteDatabase db = openDB();
+        ArrayList<Vocabulary> arr = new ArrayList<>();
+        String sql = "select * from tblVocabularies where IsFavourite = 1";
+        Cursor csr = db.rawQuery(sql, null);
+        if (csr != null) {
+            if (csr.moveToFirst()) {
+                do {
+                    int IdVocabulary = csr.getInt(0);
+                    String word = csr.getString(1);
+                    String mean = csr.getString(2);
+                    int IdTopic = csr.getInt(3);
+                    arr.add(new Vocabulary( word, mean, IdTopic, IdVocabulary));
+                } while (csr.moveToNext());
+            }
+        }
+        closeDB(db);
+        return arr;
+    }
+    public  void  deleteVocabularyFavourite(int idVocabulary){
+        SQLiteDatabase db = openDB();
+        String sql = "UPDATE tblVocabularies SET IsFavourite = 0 WHERE IdVocabulary = " + idVocabulary;
+        db.execSQL(sql);
+        closeDB(db);
+    }
+
     public ArrayList<Topics> getALLTopics(){
         SQLiteDatabase db = openDB();
         ArrayList<Topics> arr = new ArrayList<>();
@@ -157,28 +194,6 @@ public class DBHelper  {
         return arr;
     }
 
-//    public ArrayList<Vocabulary> getCategoriesDetail(int idCategories){
-//        SQLiteDatabase db = openDB();
-//
-//        ArrayList<Vocabulary> arr = new ArrayList<>();
-//        String sql = "select * from tblFurniture where tblFurniture.CategoriesID ="+idCategories;
-//        Cursor csr = db.rawQuery(sql, null);
-//        if (csr != null) {
-//            if (csr.moveToFirst()) {
-//                do {
-//                    int id = csr.getInt(0);
-//                    String name = csr.getString(1);
-//                    int image = csr.getInt(2);
-//                    String description = csr.getString(3);
-//                    int categoriesID = csr.getInt(4);
-//                    arr.add(new Topics(name,description,image,categoriesID,id));
-//                } while (csr.moveToNext());
-//            }
-//        }
-//        closeDB(db);
-//        return arr;
-//    }
-
     public  ArrayList<Vocabulary>  getVocabularyDetail(int idFurniture){
         SQLiteDatabase db = openDB();
 
@@ -200,8 +215,8 @@ public class DBHelper  {
         return arr;
     }
 
+    //insert dada in vocabulary
     public void insertFurniture(@NonNull Vocabulary vocabulary){
-
         ContentValues contentValues = new ContentValues();
         contentValues.put("Word", vocabulary.word);
         contentValues.put("Mean", vocabulary.mean);
@@ -229,5 +244,62 @@ public class DBHelper  {
             return cursor.getCount();
         }
         return 0;
+    }
+
+    //insert in sentences
+    public void insertSentences(@NonNull Sentences sentences) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("Sentence", sentences.sentence);
+        contentValues.put("DesSentence", sentences.desSentence);
+        SQLiteDatabase db = openDB();
+        db.insert("tblSentences",null, contentValues);
+        closeDB(db);
+    }
+    public void insertDetailSentences(@NonNull DetailSentences detailSentences) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("DetailSentence", detailSentences.sentence);
+        contentValues.put("IdSentence", detailSentences.idSentence);
+        SQLiteDatabase db = openDB();
+        db.insert("tblVocabularies",null, contentValues);
+        closeDB(db);
+    }
+    public ArrayList<Sentences> getALLSentences(){
+        SQLiteDatabase db = openDB();
+        ArrayList<Sentences> arr = new ArrayList<>();
+
+        String sql = "select * from tblSentences";
+        Cursor csr = db.rawQuery(sql, null);
+        if (csr != null) {
+            if (csr.moveToFirst()) {
+                do {
+                    int id = csr.getInt(0);
+                    String Sentence = csr.getString(1);
+                    String desSentence = csr.getString(2);
+                    arr.add(new Sentences( id, Sentence, desSentence));
+                } while (csr.moveToNext());
+            }
+        }
+        closeDB(db);
+        return arr;
+    }
+
+    public ArrayList<DetailSentences> getDetailSentences(int idSentences){
+
+        SQLiteDatabase db = openDB();
+        ArrayList<DetailSentences> arr = new ArrayList<>();
+        String sql = "select * from tblDetailSentences where IdDetailSentences ="+idSentences;
+        Cursor csr = db.rawQuery(sql, null);
+        if (csr != null) {
+            if (csr.moveToFirst()) {
+                do {
+                    int id = csr.getInt(0);
+                    String DetailSentence = csr.getString(1);
+                    int IdSentence = csr.getInt(2);
+                    arr.add(new DetailSentences( id, DetailSentence ,IdSentence));
+                } while (csr.moveToNext());
+            }
+        }
+        closeDB(db);
+        return arr;
     }
 }

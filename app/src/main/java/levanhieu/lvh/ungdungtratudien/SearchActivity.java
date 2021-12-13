@@ -36,7 +36,7 @@ public class SearchActivity extends AppCompatActivity implements ListVocabularyA
         linearEmpty = findViewById(R.id.linearEmpty);
         rcFurnitureFilter = findViewById(R.id.rcFurnitureFilter);
 
-        arrayList = App.init(this);
+        arrayList = dbHelper.getALLVocabulary();
         listVocabularyAdapter = new ListVocabularyAdapter(arrayList, this);
         rcFurnitureFilter.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         rcFurnitureFilter.addItemDecoration(new DividerItemDecoration(this,LinearLayoutManager.VERTICAL ));
@@ -81,18 +81,9 @@ public class SearchActivity extends AppCompatActivity implements ListVocabularyA
     @Override
     public void onClick(Vocabulary vocabulary) {
         dbHelper.setVocabularyHis(vocabulary.IdVocabulary);
-        //dbHelper.getFurnitureDetail(furniture.idFurniture);
         Intent intent = new Intent(this,VocabularyDetailActivity.class);
         intent.putExtra("furniture", vocabulary);
         startActivity(intent);
-        Toast.makeText(this, "OK", Toast.LENGTH_SHORT).show();
     }
 
-//    @Override
-//    public void onClick(Furniture furniture) {
-//        Utilities.data.add(furniture);
-//        Intent intent = new Intent(this,HomeDetailActivity.class);
-//        intent.putExtra("furniture", furniture);
-//        startActivity(intent);
-//    }
 }

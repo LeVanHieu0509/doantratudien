@@ -25,13 +25,14 @@ public class TopicDetailActivity extends AppCompatActivity implements ListVocabu
         setContentView(R.layout.activity_detail_topic);
         dbHelper = new DBHelper(this);
         toolbar = findViewById(R.id.toolbarTopicDetailActivity);
+
+        toolbar.setTitle("Topic detail");
         rcTopicDetailActivity = findViewById(R.id.rcTopicDetailActivity);
         arrayList = Utilities.dataCateHome;
         listVocabularyAdapter = new ListVocabularyAdapter(arrayList, this);
         rcTopicDetailActivity.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         rcTopicDetailActivity.addItemDecoration(new DividerItemDecoration(this,LinearLayoutManager.VERTICAL ));
         rcTopicDetailActivity.setAdapter(listVocabularyAdapter);
-
 
     }
 

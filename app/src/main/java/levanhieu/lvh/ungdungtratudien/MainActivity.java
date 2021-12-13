@@ -7,6 +7,10 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
+import android.widget.ToggleButton;
+
 import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -34,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    void display(int id){
+    public void display(int id){
         Fragment fragment = null;
         switch (id){
             case R.id.mnuHome:
@@ -59,4 +63,8 @@ public class MainActivity extends AppCompatActivity {
         ft.replace(R.id.content, fragment);
         ft.commit();
     }
+
+
+
+
 }

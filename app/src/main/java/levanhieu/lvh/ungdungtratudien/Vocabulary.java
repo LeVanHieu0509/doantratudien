@@ -9,14 +9,7 @@ public class Vocabulary implements Serializable {
     int IdTopic;
     int IdVocabulary;
 
-    @Override
-    public String toString() {
-        return "Vocabulary{" +
-                "word='" + word + '\'' +
-                ", mean='" + mean + '\'' +
-                ", IdTopic=" + IdTopic +
-                '}';
-    }
+
 
     public Vocabulary(String word, String mean, int IdTopic) {
         this.word = word;

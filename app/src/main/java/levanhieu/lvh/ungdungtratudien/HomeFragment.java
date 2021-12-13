@@ -34,6 +34,7 @@ public class HomeFragment extends Fragment implements HomeTopicAdapter.Listener,
     RecyclerView rcHomeHistory;
     RecyclerView rcHomeVocabulary;
     TextView txtSeeAllHistory;
+    TextView txtSeeAllSentences;
 
     ArrayList<Vocabulary> vocabularies;
     ArrayList<Topics> topics;
@@ -90,7 +91,7 @@ public class HomeFragment extends Fragment implements HomeTopicAdapter.Listener,
         rcHomeHistory = view.findViewById(R.id.rcHomeHistory);
         rcHomeVocabulary = view.findViewById(R.id.rcHomeVocabulary);
         txtSeeAllHistory = view.findViewById(R.id.txtSeeAllHistory);
-
+        txtSeeAllSentences = view.findViewById(R.id.txtSeeAllSentences);
         vocabularies = dbHelper.getALLVocabulary();
         topics = dbHelper.getALLTopics();
         txtSeeAllHistory.setOnClickListener(new View.OnClickListener() {
@@ -101,6 +102,16 @@ public class HomeFragment extends Fragment implements HomeTopicAdapter.Listener,
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.content, fragment);
                 ft.commit();
+            }
+        });
+        txtSeeAllSentences.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment fragment = new SentencesFragment();
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.content, fragment);
+                ft.commit();
+                Toast.makeText(getContext(), "ok", Toast.LENGTH_SHORT).show();
             }
         });
 

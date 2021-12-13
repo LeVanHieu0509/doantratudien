@@ -20,6 +20,12 @@ public class App extends Application {
             for(Topics topics :init()){
                 dbHelper.insertCategories(topics);
             }
+            for (Sentences sentences :initSentences()){
+                dbHelper.insertSentences(sentences);
+            }
+            for (DetailSentences detailSentences :initDetailSentences()){
+                dbHelper.insertDetailSentences(detailSentences);
+            }
         }
     }
     public static ArrayList<Vocabulary> init(Context context) {
@@ -50,6 +56,30 @@ public class App extends Application {
         tmp.add(new Topics(3,"IELTS",3));
         tmp.add(new Topics(4,"TRAVEL",4));
         tmp.add(new Topics(5,"BASSIC",5));
+
+        return tmp;
+    }
+
+    public static ArrayList<Sentences> initSentences(){
+        ArrayList<Sentences> tmp = new ArrayList<>();
+       tmp.add(new Sentences(1, "Một số mẫu câu bày tỏ sự tức giận1","-Shut up (Câm miệng)"));
+        tmp.add(new Sentences(2, "Một số mẫu câu bày tỏ sự tức giận2","-Shut up (Câm miệng1)"));
+        tmp.add(new Sentences(3, "Một số mẫu câu bày tỏ sự tức giận3","-Shut up (Câm miệng2)"));
+        tmp.add(new Sentences(4, "Một số mẫu câu bày tỏ sự tức giận4","-Shut up (Câm miệng3)"));
+        tmp.add(new Sentences(5, "Một số mẫu câu bày tỏ sự tức giận5","-Shut up (Câm miệng4)"));
+        return tmp;
+    }
+
+    public static ArrayList<DetailSentences> initDetailSentences(){
+        ArrayList<DetailSentences> tmp = new ArrayList<>();
+        tmp.add(new DetailSentences(1,"-Shut up (Câm miệng)1",1));
+        tmp.add(new DetailSentences(2,"-Shut up (Câm miệng)2",2));
+        tmp.add(new DetailSentences(3,"-Shut up (Câm miệng)3",2));
+        tmp.add(new DetailSentences(4,"-Shut up (Câm miệng)4",4));
+        tmp.add(new DetailSentences(5,"-Shut up (Câm miệng5)",3));
+        tmp.add(new DetailSentences(6,"-Shut up (Câm miệng6)",5));
+        tmp.add(new DetailSentences(7,"-Shut up (Câm miệng7)",4));
+
 
         return tmp;
     }

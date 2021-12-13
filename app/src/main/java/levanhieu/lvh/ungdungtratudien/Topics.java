@@ -12,7 +12,6 @@ public class Topics implements Serializable {
         this.name = name;
         this.idTopic = idTopic;
     }
-
     public Topics(int image, String name,int idTopic) {
         this.image = image;
         this.name = name;
