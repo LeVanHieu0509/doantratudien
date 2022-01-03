@@ -10,7 +10,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
+import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,7 +20,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
+
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
@@ -29,20 +33,23 @@ import java.util.ArrayList;
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment implements HomeTopicAdapter.Listener, HomeHistoryAdapter.Listener{
-
+public class HomeFragment extends Fragment implements HomeTopicAdapter.Listener, HomeHistoryAdapter.Listener, NavigationView.OnNavigationItemSelectedListener {
+    View mView;
     RecyclerView rcHomeHistory;
     RecyclerView rcHomeVocabulary;
     TextView txtSeeAllHistory;
     TextView txtSeeAllSentences;
-
+    TextView txtSeeAllTopics;
     ArrayList<Vocabulary> vocabularies;
     ArrayList<Topics> topics;
     ArrayList<Vocabulary> ListItemCate;
+    ArrayList<Vocabulary> ListItemHis;
 
+    BottomNavigationView bottomNavigationView;
     HomeHistoryAdapter homeHistoryAdapter;
     HomeTopicAdapter homeTopicAdapter;
     DBHelper dbHelper;
+
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -92,15 +99,22 @@ public class HomeFragment extends Fragment implements HomeTopicAdapter.Listener,
         rcHomeVocabulary = view.findViewById(R.id.rcHomeVocabulary);
         txtSeeAllHistory = view.findViewById(R.id.txtSeeAllHistory);
         txtSeeAllSentences = view.findViewById(R.id.txtSeeAllSentences);
+        txtSeeAllTopics = view.findViewById(R.id.txtSeeAllTopic);
+
+        bottomNavigationView = view.findViewById(R.id.bottomNavigationView);
         vocabularies = dbHelper.getALLVocabulary();
         topics = dbHelper.getALLTopics();
+        BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.bottomNavigationView);
+        Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
         txtSeeAllHistory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Fragment fragment = new HistoryFragment();
 
+                Fragment fragment = new HistoryFragment();
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.content, fragment);
+                bottomNavigationView.getMenu().findItem(R.id.mnuHistory).setChecked(true);
+                toolbar.setTitle("");
                 ft.commit();
             }
         });
@@ -111,14 +125,25 @@ public class HomeFragment extends Fragment implements HomeTopicAdapter.Listener,
                 FragmentTransaction ft = getFragmentManager().beginTransaction();
                 ft.replace(R.id.content, fragment);
                 ft.commit();
-                Toast.makeText(getContext(), "ok", Toast.LENGTH_SHORT).show();
             }
         });
-
-        homeHistoryAdapter = new HomeHistoryAdapter(vocabularies, this);
+        txtSeeAllTopics.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment fragment = new VocabularyFragment();
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.content, fragment);
+                bottomNavigationView.getMenu().findItem(R.id.mnuVocabulary).setChecked(true);
+                toolbar.setTitle("Vocabulary");
+                ft.commit();
+            }
+        });
+        ListItemHis = dbHelper.getVocabularyHis();
+        homeHistoryAdapter = new HomeHistoryAdapter(ListItemHis, this);
         rcHomeHistory.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
         rcHomeHistory.addItemDecoration(new DividerItemDecoration(getContext(),LinearLayoutManager.HORIZONTAL));
         rcHomeHistory.setAdapter(homeHistoryAdapter);
+
         homeTopicAdapter = new HomeTopicAdapter(topics,this);
         rcHomeVocabulary.setLayoutManager(new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false));
         rcHomeVocabulary.addItemDecoration(new DividerItemDecoration(getContext(),LinearLayoutManager.HORIZONTAL));
@@ -143,7 +168,14 @@ public class HomeFragment extends Fragment implements HomeTopicAdapter.Listener,
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        mView = inflater.inflate(R.layout.fragment_home, container, false);
+        mView.findViewById(R.id.txtSeeAllHistory).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomNavigationView.getMenu().findItem(R.id.mnuHistory).setChecked(true);
+            }
+        });
+        return mView;
     }
 
     @Override
@@ -164,5 +196,10 @@ public class HomeFragment extends Fragment implements HomeTopicAdapter.Listener,
         Utilities.dataCateHome.addAll(ListItemCate);
         Intent intent = new Intent(getActivity(),TopicDetailActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        return false;
     }
 }

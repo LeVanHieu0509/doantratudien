@@ -88,9 +88,9 @@ public class SentencesFragment extends Fragment  implements SentencesAdapter.Lis
     }
     @Override
     public void onClick(Sentences sentences) {
-        Intent intent = new Intent(getActivity(),SentencesDetailActivity.class);
-        intent.putExtra("sentencesDetail", sentences);
-        startActivity(intent);
+            Intent intent = new Intent(getActivity(),SentencesDetailActivity.class);
+            intent.putExtra("sentencesDetail", sentences);
+            startActivity(intent);
     }
 
 

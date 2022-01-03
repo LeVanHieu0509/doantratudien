@@ -1,9 +1,11 @@
 package levanhieu.lvh.ungdungtratudien;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
@@ -17,6 +19,7 @@ import java.util.Objects;
 public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.HistoryVH> {
     ArrayList<Vocabulary> arrayList;
     FavouriteAdapter.Listener listener;
+
 
 
     public FavouriteAdapter(ArrayList<Vocabulary> arrayList , Listener listener) {
@@ -52,17 +55,14 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.Hist
             }
         });
         //
-//        holder.imgFavourite.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                listener.onClickStar1(vocabulary);
-//            }
-//        });
-
-
+        holder.imgFavourite.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean ischecked) {
+                listener.onClickStar1(vocabulary,ischecked);
+            }
+        });
 
     }
-
     @Override
     public int getItemCount() {
         return arrayList.size();
@@ -70,20 +70,22 @@ public class FavouriteAdapter extends RecyclerView.Adapter<FavouriteAdapter.Hist
     interface  Listener{
         void onClick(Vocabulary vocabulary);
         void onClickClose1(Vocabulary vocabulary);
-        void onClickStar1(Vocabulary vocabulary);
+        void onClickStar1(Vocabulary vocabulary, boolean isChecked);
     }
 
-    class HistoryVH extends RecyclerView.ViewHolder {
+     class HistoryVH extends RecyclerView.ViewHolder {
         TextView txtHistoryWord, txtHistoryMean;
         ToggleButton imgFavourite;
         ImageView imgClose;
 
         public HistoryVH(@NonNull View itemView){
             super(itemView);
+            ToggleButton toggleButton1;
             txtHistoryWord = itemView.findViewById(R.id.txtHistoryWord);
             txtHistoryMean = itemView.findViewById(R.id.txtHistoryMean);
             imgClose = itemView.findViewById(R.id.iconClose);
             imgFavourite = itemView.findViewById(R.id.toggleButton);
+
         }
     }
 }

@@ -2,28 +2,25 @@ package levanhieu.lvh.ungdungtratudien;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.Toast;
-import android.widget.ToggleButton;
-import android.widget.Toolbar;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
@@ -34,13 +31,19 @@ import java.util.ArrayList;
  */
 public class HistoryFragment extends Fragment implements HistoryAdapter.Listener, FavouriteAdapter.Listener {
 
-    RecyclerView rcHistory;
+    RecyclerView  rcHistory;
     ArrayList<Vocabulary> arrayList;
     ArrayList<Vocabulary> arrayListFavourite;
     HistoryAdapter historyAdapter ;
     FavouriteAdapter favouriteAdapter ;
     DBHelper dbHelper;
     Context context;
+    Toolbar toolbarHistory;
+    SearchView searchHistory;
+    ListVocabularyAdapter listVocabularyAdapter;
+    LinearLayout linearEmpty;
+    RecyclerView rcHistoryFilter;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -87,21 +90,66 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.Listener
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        View v = inflater.inflate(R.layout.fragment_history, container, false);
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_history, container, false);
+//        rcHistory = v.findViewById(R.id.rcHistory);
+//        rcHistory.setHasFixedSize(true);
+//        rcHistory.setLayoutManager(new LinearLayoutManager(getActivity()));
+        return v;
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        toolbarHistory = view.findViewById(R.id.toolbar);
+        searchHistory = view.findViewById(R.id.searchHistory);
+        linearEmpty = view.findViewById(R.id.linearEmpty);
+        rcHistoryFilter = view.findViewById(R.id.rcHistory);
+
 
         rcHistory= view.findViewById(R.id.rcHistory);
         arrayList = dbHelper.getVocabularyHis();
         historyAdapter = new HistoryAdapter(arrayList,this);
-        rcHistory.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-        rcHistory.addItemDecoration(new DividerItemDecoration(getContext(),LinearLayoutManager.VERTICAL ));
-        rcHistory.setAdapter(historyAdapter);
+        rcHistoryFilter.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        rcHistoryFilter.addItemDecoration(new DividerItemDecoration(getContext(),LinearLayoutManager.VERTICAL ));
+        rcHistoryFilter.setAdapter(historyAdapter);
+        //setVisible(false);
+
+        searchHistory.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            //An vao nut search thi moi tra cuu
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            //Nhap tu la tra cuu luon
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                historyAdapter.getFilter().filter(newText);
+//                if(historyAdapter.arrayListFilter.size() == 0 || newText.isEmpty())
+//                {
+//                    rcHistoryFilter.setVisibility(View.GONE);
+//                }
+//                else{
+//                    Toast.makeText(getContext(), newText, Toast.LENGTH_SHORT).show();
+//                    rcHistoryFilter.setVisibility(View.GONE);
+//                }
+                return false;
+            }
+        });
+
+    }
+    public void setVisible(boolean flag)
+    {
+        if(flag == false){
+            //linearEmpty.setVisibility(View.VISIBLE);
+            rcHistoryFilter.setVisibility(View.GONE);
+        }
+        else{
+            //linearEmpty.setVisibility(View.GONE);
+            rcHistoryFilter.setVisibility(View.GONE);
+        }
     }
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
@@ -113,7 +161,6 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.Listener
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.mnuHistory){
             Toast.makeText(getContext(), "Bạn đang xem lịch sử", Toast.LENGTH_SHORT).show();
-
             Fragment fragment = new HistoryFragment();
             FragmentTransaction ft = getFragmentManager().beginTransaction();
             ft.replace(R.id.content, fragment);
@@ -153,19 +200,12 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.Listener
         int b = Integer.parseInt(a);
         if (isChecked){
             dbHelper.setVocabularyFavourite(b);
-            Toast.makeText(getContext(), "Thêm vào mục yêu thích thành ", Toast.LENGTH_SHORT).show();
-            SharedPreferences preferences = getContext().getSharedPreferences("prefs", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = preferences.edit();
-            editor.putBoolean("check", true);
-            editor.apply();
-
+            Toast.makeText(getContext(), "Thêm vào mục yêu thích thành công  ", Toast.LENGTH_SHORT).show();
         }
         else {
             dbHelper.deleteVocabularyFavourite(vocabulary.IdVocabulary);
             Toast.makeText(getContext(), " Xóa thành công", Toast.LENGTH_SHORT).show();
         }
-
-        //Toast.makeText(getContext(), "Them Vao muc yeu thich Thanh cong", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -180,9 +220,17 @@ public class HistoryFragment extends Fragment implements HistoryAdapter.Listener
     }
 
     @Override
-    public void onClickStar1(Vocabulary vocabulary) {
-        dbHelper.setVocabularyFavourite(vocabulary.IdVocabulary);
-        Toast.makeText(getContext(), "Them Vao muc yeu thic Thanh cong", Toast.LENGTH_SHORT).show();
+    public void onClickStar1(Vocabulary vocabulary,boolean isChecked) {
+        String a = String.valueOf(vocabulary.IdVocabulary);
+        int b = Integer.parseInt(a);
+        if (isChecked){
+            dbHelper.setVocabularyFavourite(b);
+            Toast.makeText(getContext(), "Thêm vào mục yêu thích thành ", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            dbHelper.deleteVocabularyFavourite(vocabulary.IdVocabulary);
+            Toast.makeText(getContext(), " Xóa thành công", Toast.LENGTH_SHORT).show();
+        }
     }
 
 

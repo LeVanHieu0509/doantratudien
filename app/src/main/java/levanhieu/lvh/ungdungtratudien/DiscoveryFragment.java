@@ -1,12 +1,24 @@
 package levanhieu.lvh.ungdungtratudien;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -15,6 +27,13 @@ import android.view.ViewGroup;
  */
 public class DiscoveryFragment extends Fragment {
 
+    //ConstraintSet.Constraint constraint;
+    ConstraintLayout learnVocabulary;
+    ConstraintLayout History;
+    ConstraintLayout QuicklyVocabulary;
+    ConstraintLayout LearnSentences;
+
+    //BottomNavigationView bottomNavigationView;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -60,5 +79,71 @@ public class DiscoveryFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_discovery, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        learnVocabulary = view.findViewById(R.id.LearnVocabulary);
+        History = view.findViewById(R.id.History);
+        QuicklyVocabulary = view.findViewById(R.id.QuicklyVocabulary);
+        LearnSentences = view.findViewById(R.id.LearnSentences);
+        //bottomNavigationView = view.findViewById(R.id.bottomNavigationView);
+        BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.bottomNavigationView);
+        Toolbar toolbar = getActivity().findViewById(R.id.toolbar);
+        learnVocabulary.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                bottomNavigationView.getMenu().findItem(R.id.mnuVocabulary).setChecked(true);
+//                Toast.makeText(getContext(), "ok", Toast.LENGTH_SHORT).show();
+
+                Fragment fragment = new VocabularyFragment();
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.content, fragment);
+                MenuItem item = bottomNavigationView.getMenu().findItem(R.id.mnuVocabulary);
+                item.setChecked(true);
+                toolbar.setTitle("Vocabulary");
+                //bottomNavigationView.getMenu().findItem(R.id.mnuVocabulary).setChecked(true);
+                ft.commit();
+            }
+        });
+        History.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                bottomNavigationView.getMenu().findItem(R.id.mnuVocabulary).setChecked(true);
+//                Toast.makeText(getContext(), "ok", Toast.LENGTH_SHORT).show();
+
+                Fragment fragment = new HistoryFragment();
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.content, fragment);
+                bottomNavigationView.getMenu().findItem(R.id.mnuHistory).setChecked(true);
+                toolbar.setTitle("");
+                //bottomNavigationView.getMenu().findItem(R.id.mnuHistory).setChecked(true);
+                ft.commit();
+            }
+        });
+        QuicklyVocabulary.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                bottomNavigationView.getMenu().findItem(R.id.mnuVocabulary).setChecked(true);
+//                Toast.makeText(getContext(), "ok", Toast.LENGTH_SHORT).show();
+
+                Intent intent =  new Intent(getContext(), SearchActivity.class);
+                startActivity(intent);
+            }
+        });
+        LearnSentences.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                bottomNavigationView.getMenu().findItem(R.id.mnuVocabulary).setChecked(true);
+//                Toast.makeText(getContext(), "ok", Toast.LENGTH_SHORT).show();
+
+                Fragment fragment = new SentencesFragment();
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.content, fragment);
+                //bottomNavigationView.getMenu().findItem(R.id.mnuHistory).setChecked(true);
+                ft.commit();
+            }
+        });
     }
 }

@@ -21,15 +21,15 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
-        android:id="@+id/txtHistoryWord"
-        android:layout_width="81dp"
-        android:layout_height="87dp"
-        android:layout_gravity="center"
-        android:paddingTop="35dp"
-        android:text="hello"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout"
-        app:layout_constraintEnd_toEndOf="@+id/constraintLayout"
-        app:layout_constraintStart_toStartOf="@+id/constraintLayout" />
+    android:id="@+id/txtHistoryWord"
+    android:layout_width="81dp"
+    android:layout_height="87dp"
+    android:layout_gravity="center"
+    android:paddingTop="35dp"
+    android:text="hello"
+    android:textAlignment="center"
+    app:layout_constraintBottom_toBottomOf="@+id/constraintLayout"
+    app:layout_constraintEnd_toEndOf="@+id/constraintLayout"
+    app:layout_constraintStart_toStartOf="@+id/constraintLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

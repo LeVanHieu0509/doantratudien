@@ -10,7 +10,7 @@
     <!-- TODO: Update blank fragment layout -->
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar3"
+        android:id="@+id/toolbarHistory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
@@ -32,14 +32,15 @@
         android:paddingEnd="0dp"
         android:paddingRight="0dp"></LinearLayout>
 
-    <SearchView
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchHistory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="6dp"
         android:layout_marginLeft="3dp"
-        android:gravity="center" >
+        android:layout_marginTop="6dp"
+        android:gravity="center"/>
 
-    </SearchView>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcHistory"

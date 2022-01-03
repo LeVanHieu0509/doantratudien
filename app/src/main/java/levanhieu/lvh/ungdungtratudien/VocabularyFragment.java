@@ -44,7 +44,7 @@ public class VocabularyFragment extends Fragment implements VocabularyAdapter.Li
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
-     *
+     * 
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
      * @return A new instance of fragment VocabularyFragment.
@@ -95,6 +95,6 @@ public class VocabularyFragment extends Fragment implements VocabularyAdapter.Li
         Utilities.dataCateHome.addAll(ListItemCate);
         Intent intent = new Intent(getActivity(),TopicDetailActivity.class);
         startActivity(intent);
-        Toast.makeText(getContext(), "1", Toast.LENGTH_SHORT).show();
+
     }
 }

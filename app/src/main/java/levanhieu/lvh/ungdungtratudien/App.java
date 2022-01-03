@@ -62,11 +62,12 @@ public class App extends Application {
 
     public static ArrayList<Sentences> initSentences(){
         ArrayList<Sentences> tmp = new ArrayList<>();
-       tmp.add(new Sentences(1, "Một số mẫu câu bày tỏ sự tức giận1","-Shut up (Câm miệng)"));
-        tmp.add(new Sentences(2, "Một số mẫu câu bày tỏ sự tức giận2","-Shut up (Câm miệng1)"));
-        tmp.add(new Sentences(3, "Một số mẫu câu bày tỏ sự tức giận3","-Shut up (Câm miệng2)"));
-        tmp.add(new Sentences(4, "Một số mẫu câu bày tỏ sự tức giận4","-Shut up (Câm miệng3)"));
-        tmp.add(new Sentences(5, "Một số mẫu câu bày tỏ sự tức giận5","-Shut up (Câm miệng4)"));
+       tmp.add(new Sentences(1, "Một số mẫu câu bày tỏ sự tức giận","-Shut up (Câm miệng) \n" +
+               "- Get lost (Cút đi)"));
+        tmp.add(new Sentences(2, "Một số mẫu câu chúc mừng bằng tiếng anh","-Shut up (Câm miệng1)"));
+        tmp.add(new Sentences(3, "Động viên người khác bằng tiếng anh","-Shut up (Câm miệng2)"));
+        tmp.add(new Sentences(4, "Từ vựng về các giác ","-Shut up (Câm miệng3)"));
+        tmp.add(new Sentences(5, "Động viên người khác bằng tiếng anh","-Shut up (Câm miệng4)"));
         return tmp;
     }
 
